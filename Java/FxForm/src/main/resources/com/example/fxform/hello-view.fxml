@@ -15,8 +15,11 @@
     <Label text="Enter line for Parsing:" fx:id="textFieldLabel"/>
     <TextField fx:id="formField"/>
 
-    <Label fx:id="sendFormBtnLabel"/>
-    <Button text="Send" onAction="#onSendButtonClick"/>
 
+    <Button text="Parse Line" onAction="#onSendButtonClick"/>
+
+    <Label fx:id="sendFileFormBtnLabel" text="Parse file:"/> <Button text="Choose file..." onAction="#onChooseButtonClick"/>
+
+    <Label fx:id="sendFormBtnLabel"/>
 
 </VBox>

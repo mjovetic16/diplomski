@@ -63,6 +63,7 @@ instance Show MARC where
         where showArray (x:[]) = show x
               showArray (x:xs) = show x++",\n" ++ showArray xs
               showArray [] = ""
+    show (MARC Nothing Nothing d) = "{}"
     
 
 

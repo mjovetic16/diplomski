@@ -59,15 +59,16 @@ main = scotty 3000 $ do
         b<-body
         i<-liftIO $ putStrLn $ show (decode b :: Maybe JsonMessage)
         Web.Scotty.json $ JsonMessage "Test" "Body"
-        
-        
-    get "/parse" $ do
+
+    post "/parse/file" $ do
+        liftIO $ putStrLn "request arrived"
         b<-body
         i<-liftIO $ parse $ (decode b :: Maybe JsonMessage)
         liftIO $ putStrLn $ show $ i
         Web.Scotty.json $ i
 
-    post "/parseline" $ do
+    post "/parse/line" $ do
+        liftIO $ putStrLn "request arrived"
         b<-body
         i<-liftIO $ parseLine $ (decode b :: Maybe JsonMessage)
         liftIO $ putStrLn $ show $ i

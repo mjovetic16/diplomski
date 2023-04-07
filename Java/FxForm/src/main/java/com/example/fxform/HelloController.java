@@ -1,8 +1,12 @@
 package com.example.fxform;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -13,8 +17,12 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.util.Scanner;
 
 
 public class HelloController {
@@ -22,6 +30,8 @@ public class HelloController {
     public TextField formField;
     @FXML
     private Label sendFormBtnLabel;
+    @FXML
+    private Label sendFileFormBtnLabel;
 
     @FXML
     protected void onSendButtonClick() {
@@ -30,31 +40,95 @@ public class HelloController {
         txt = formField.getText();
 //        sendFormBtnLabel.setText(txt);
 
-        String payload = "{\"name\":\"PARSE REQUEST LINE\",\"mbody\":\""+txt+"\\n"+"\"}";
+
+        HttpResponse entityResponse = sendJson(txt+"\\n","http://localhost:3000/parse/line");
+
+        if (entityResponse.getEntity() != null) {
+            String content = null;
+            try {
+                content = EntityUtils.toString(entityResponse.getEntity());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println("The response is:");
+            System.out.println("PARSED:"+content);
+            sendFormBtnLabel.setText("PARSED:"+content);
+            // do something with the JSON object
+        }
+
+
+
+
+    }
+
+    public void onChooseButtonClick(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        String txt = "";
+
+        Node node = (Node) event.getSource();
+        Stage thisStage = (Stage) node.getScene().getWindow();
+
+        File file = fileChooser.showOpenDialog(thisStage);
+        if(file!=null){
+            Scanner sc = null;
+            try {
+                sc = new Scanner(file);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+            while (sc.hasNextLine())
+                txt+=sc.nextLine();
+        }
+
+        HttpResponse entityResponse = sendJson(txt,"http://localhost:3000/parse/file");
+
+        if (entityResponse.getEntity() != null) {
+            String content = null;
+            try {
+                content = EntityUtils.toString(entityResponse.getEntity());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println("The response is:");
+            System.out.println("PARSED:"+content);
+            sendFormBtnLabel.setText("PARSED:"+content);
+            // do something with the JSON object
+        }
+
+
+    }
+
+
+    public HttpResponse sendJson(String txt, String path){
+        String payload = "{\"name\":\"PARSE REQUEST LINE\",\"mbody\":\""+txt+"\"}";
 
         StringEntity entity = new StringEntity(payload,
                 ContentType.APPLICATION_JSON);
+        
+        HttpResponse response = null;
 
         try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
-            HttpPost request = new HttpPost("http://localhost:3000/parseline");
+            HttpPost request = new HttpPost(path);
             request.setEntity(entity);
+            request.addHeader("Accept", "application/json");
+            request.addHeader("Accept-Charset", "utf-8");
 
-            HttpResponse response = httpClient.execute(request);
-            HttpEntity entityResponse = response.getEntity();
 
+            System.out.println("SJ::Entity:"+entity);
+            System.out.println("SJ::Request:"+request);
+            System.out.println("SJ::Payload:"+payload);
 
-            if (entityResponse != null) {
-                String content = EntityUtils.toString(entityResponse);
-                System.out.println("The response is:");
-                System.out.println("PARSED:"+content);
-                sendFormBtnLabel.setText("PARSED:"+content);
-                // do something with the JSON object
-            }
+            response = httpClient.execute(request);
 
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        return response;
     }
 }
