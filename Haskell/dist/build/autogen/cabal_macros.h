@@ -33,6 +33,17 @@
   (major1) == 1 && (major2) == 3 && (minor) <= 3)
 #endif /* MIN_VERSION_directory */
 
+/* package mtl-2.2.2 */
+#ifndef VERSION_mtl
+#define VERSION_mtl "2.2.2"
+#endif /* VERSION_mtl */
+#ifndef MIN_VERSION_mtl
+#define MIN_VERSION_mtl(major1,major2,minor) (\
+  (major1) <  2 || \
+  (major1) == 2 && (major2) <  2 || \
+  (major1) == 2 && (major2) == 2 && (minor) <= 2)
+#endif /* MIN_VERSION_mtl */
+
 /* package parsec-3.1.14.0 */
 #ifndef VERSION_parsec
 #define VERSION_parsec "3.1.14.0"
@@ -54,6 +65,17 @@
   (major1) == 0 && (major2) <  12 || \
   (major1) == 0 && (major2) == 12 && (minor) <= 1)
 #endif /* MIN_VERSION_scotty */
+
+/* package text-1.2.3.1 */
+#ifndef VERSION_text
+#define VERSION_text "1.2.3.1"
+#endif /* VERSION_text */
+#ifndef MIN_VERSION_text
+#define MIN_VERSION_text(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  2 || \
+  (major1) == 1 && (major2) == 2 && (minor) <= 3)
+#endif /* MIN_VERSION_text */
 
 /* tool alex-3.2.4 */
 #ifndef TOOL_VERSION_alex
@@ -177,10 +199,10 @@
 #endif /* MIN_TOOL_VERSION_runghc */
 
 #ifndef CURRENT_PACKAGE_KEY
-#define CURRENT_PACKAGE_KEY "Haskell-0.1.0.0-ABXutMih5zADAp9IKrVoHK"
+#define CURRENT_PACKAGE_KEY "Haskell-0.1.0.0-1hClZF1da8O2G9XqODE55t"
 #endif /* CURRENT_PACKAGE_KEY */
 #ifndef CURRENT_COMPONENT_ID
-#define CURRENT_COMPONENT_ID "Haskell-0.1.0.0-ABXutMih5zADAp9IKrVoHK"
+#define CURRENT_COMPONENT_ID "Haskell-0.1.0.0-1hClZF1da8O2G9XqODE55t"
 #endif /* CURRENT_COMPONENT_ID */
 #ifndef CURRENT_PACKAGE_VERSION
 #define CURRENT_PACKAGE_VERSION "0.1.0.0"

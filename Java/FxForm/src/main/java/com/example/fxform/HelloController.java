@@ -81,10 +81,11 @@ public class HelloController {
             }
 
             while (sc.hasNextLine())
-                txt+=sc.nextLine();
+                txt+=sc.nextLine()+"\\n";
         }
 
         HttpResponse entityResponse = sendJson(txt,"http://localhost:3000/parse/file");
+        //HttpResponse entityResponse = sendJson(txt,"https://enj6ipg92lgs9.x.pipedream.net/");
 
         if (entityResponse.getEntity() != null) {
             String content = null;

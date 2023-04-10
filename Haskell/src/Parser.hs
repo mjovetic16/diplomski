@@ -6,6 +6,7 @@ import System.Directory
 import System.IO  
 import Data.List  
 import Data.Char
+import Control.Monad.Trans(liftIO,lift,MonadIO)
 
 data MARC = MARC (Maybe Leader) (Maybe [CtrlField]) [DataField]
 data MARCLine = MARCLine (Maybe Leader) (Maybe CtrlField) (Maybe DataField)
@@ -63,7 +64,7 @@ instance Show MARC where
         where showArray (x:[]) = show x
               showArray (x:xs) = show x++",\n" ++ showArray xs
               showArray [] = ""
-    show (MARC Nothing Nothing d) = "{}"
+    show (MARC Nothing Nothing d) = "{Parse ERROR}"++ show d
     
 
 
@@ -199,8 +200,15 @@ parseMarc :: Parsec String () MARC
 parseMarc = do leader <- optionMaybe (try leader)
                ctrlFields <- manyTill ctrlField (try $ lookAhead $ dataField)
                dataFields <- many $ try dataField
+            
                return $ MARC leader (Just ctrlFields) dataFields
 
+-- parseMarc :: Parsec String () MARC
+-- parseMarc = do leader <- optionMaybe (try leader)
+--                ctrlFields <- manyTill ctrlField (try $ lookAhead $ dataField)
+--                dataFields <- many $ try dataField
+            
+--                return $ MARC leader (Just ctrlFields) dataFields
 
 doParseMarc :: String -> Either ParseError MARC
 doParseMarc s = parse parseMarc "" s
@@ -230,6 +238,7 @@ mainParse :: String -> IO (Either ParseError MARC)
 mainParse path = do handle <- openFile path ReadMode
                     handleW <- openFile "jsonMarc.json" WriteMode    
                     contents <- hGetContents handle  
+                    putStrLn $ show $ contents
                     let txt = doParseMarc contents
                     hPrint handleW (printJSON txt)
                     hClose handle
@@ -238,6 +247,7 @@ mainParse path = do handle <- openFile path ReadMode
 
 directParse :: String -> IO (Either ParseError MARC)
 directParse contents = do 
+                    putStrLn $ show $ contents
                     let txt = doParseMarc contents
                     return $ txt
 

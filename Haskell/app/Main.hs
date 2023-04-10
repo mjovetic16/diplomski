@@ -35,7 +35,7 @@ instance ToJSON Parser.MARCLine where
  --Change type  
 parse :: Maybe JsonMessage -> IO(Parser.MARC)
 parse (Just (JsonMessage name body)) = do
-        putStrLn $ show body
+        -- putStrLn $ show body
         dp <- Parser.directParse body
         -- putStrLn $ show dp
         case dp of
