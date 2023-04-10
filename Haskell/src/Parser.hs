@@ -18,10 +18,10 @@ instance Show Leader where
     show (Leader s) = "\"leader\": "++show s
 
 instance Show CtrlField where
-    show (CtrlField controlTag controlData) = "\t{\n\t\t"++show controlTag ++":"++show controlData++"\n\t}"
+    show (CtrlField controlTag controlData) = "{"++show controlTag ++":"++show controlData++"}"
 
 instance Show DataField where
-    show (DataField tag ind subfields) = "\t{\n\t\t"++show tag++":\n\t\t{\n \t\t\t\"subfields\":\n\t\t\t[\n"++ showArray (array subfields)++"\n\t\t\t],\n\t\t\t"++showInd ind++"\n\t\t}\n\t}"
+    show (DataField tag ind subfields) = "{"++show tag++":{\"subfields\":["++ showArray (array subfields)++"],\n"++showInd ind++"}}"
         where showArray [] =  ""
               showArray (x:[]) = x
               showArray (x:xs) = x ++",\n"++ showArray xs
@@ -30,7 +30,7 @@ instance Show DataField where
                         where showInd1 '#' = show " "
                               showInd1 '_' = show " "
                               showInd1 a = "\""++[a]++"\""  
-                      showIndHelp (x:y:[]) = "\"ind1\":"++showInd1 x++",\n\t\t\t\"ind2\":"++showInd1 y
+                      showIndHelp (x:y:[]) = "\"ind1\":"++showInd1 x++",\n\"ind2\":"++showInd1 y
                         where showInd1 '#' = show " "
                               showInd1 '_' = show " "
                               showInd1 a = "\""++[a]++"\""
@@ -39,28 +39,28 @@ instance Show DataField where
                         where showInd1 '#' = show " "
                               showInd1 '_' = show " "
                               showInd1 a = "\""++[a]++"\""  
-                      showIndHelp (x:y:[]) = "\"ind1\":"++showInd1 x++",\n\t\t\t\"ind2\":"++showInd1 y
+                      showIndHelp (x:y:[]) = "\"ind1\":"++showInd1 x++",\n\"ind2\":"++showInd1 y
                         where showInd1 '#' = show " "
                               showInd1 '_' = show " "
                               showInd1 a = "\""++[a]++"\"" 
               array [] = [] 
               array (x:xs) = arrayHelp x : array xs
-                where arrayHelp (c,dat) = "\t\t\t\t{\n\t\t\t\t\t\""++ [c] ++ "\":\"" ++ dat ++ "\"\n\t\t\t\t}"
+                where arrayHelp (c,dat) = "{\""++ [c] ++ "\":\"" ++ dat ++ "\"}"
 
 instance Show MARC where
-    show (MARC (Just l) (Just []) d) = "{\n"++show l++",\n\"fields\":\n [\n"++ showArray d++"\n]\n}"
+    show (MARC (Just l) (Just []) d) = "{"++show l++",\n\"fields\": ["++ showArray d++"]}"
         where showArray (x:[]) = show x
               showArray (x:xs) = show x++",\n" ++ showArray xs
               showArray [] = ""
-    show (MARC Nothing (Just []) d) = "{\n\"fields\":\n [\n"++ showArray d++"\n]\n}"
+    show (MARC Nothing (Just []) d) = "{\"fields\": ["++ showArray d++"]}"
         where showArray (x:[]) = show x
               showArray (x:xs) = show x++",\n" ++ showArray xs
               showArray [] = ""
-    show (MARC (Just l) (Just c) d) = "{\n"++show l++",\n\"fields\":\n [\n"++ showArray c++",\n"++ showArray d++"\n]\n}"
+    show (MARC (Just l) (Just c) d) = "{"++show l++",\n\"fields\": ["++ showArray c++",\n"++ showArray d++"]}"
         where showArray (x:[]) = show x
               showArray (x:xs) = show x++",\n" ++ showArray xs
               showArray [] = ""
-    show (MARC Nothing (Just c) d) = "{\n\"fields\":\n [\n"++ showArray c++",\n"++ showArray d++"\n]\n}"
+    show (MARC Nothing (Just c) d) = "{\"fields\": ["++ showArray c++",\n"++ showArray d++"]}"
         where showArray (x:[]) = show x
               showArray (x:xs) = show x++",\n" ++ showArray xs
               showArray [] = ""
@@ -70,9 +70,9 @@ instance Show MARC where
 
 instance Show MARCLine where
     show (MARCLine Nothing Nothing Nothing) = "Empty MARC"
-    show (MARCLine (Just l) Nothing Nothing) = "L{"++show l++"}"
-    show (MARCLine Nothing (Just c) Nothing) = "C{"++show c++"}"
-    show (MARCLine Nothing Nothing (Just d)) = "D{"++show d++"}"
+    show (MARCLine (Just l) Nothing Nothing) = "Leader{"++show l++"}"
+    show (MARCLine Nothing (Just c) Nothing) = "Control{"++show c++"}"
+    show (MARCLine Nothing Nothing (Just d)) = "Data{"++show d++"}"
         
 
 
