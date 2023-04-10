@@ -3,6 +3,7 @@ package com.example.fxform;
 import com.example.fxform.model.JsonMessage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -121,6 +122,7 @@ public class HelloController {
             JsonMessage jsonMessage = gson.fromJson(content, JsonMessage.class);
             System.out.println(jsonMessage);
             sendFormBtnLabel.setText("PARSED:"+jsonMessage.getMbody());
+
 
 
             // do something with the JSON object
