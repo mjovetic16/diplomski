@@ -1,5 +1,8 @@
 package com.example.fxform;
 
+import com.example.fxform.model.JsonMessage;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -23,6 +26,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Scanner;
+import com.example.fxform.model.JsonMessage;
+
+
 
 
 public class HelloController {
@@ -52,7 +58,17 @@ public class HelloController {
             }
             System.out.println("The response is:");
             System.out.println("PARSED:"+content);
-            sendFormBtnLabel.setText("PARSED:"+content);
+
+            Gson gson = new GsonBuilder()
+                    .setPrettyPrinting()
+                    .create();
+
+            JsonMessage jsonMessage = gson.fromJson(content, JsonMessage.class);
+
+            System.out.println(jsonMessage);
+
+
+            sendFormBtnLabel.setText("PARSED:"+jsonMessage.getMbody());
             // do something with the JSON object
         }
 
@@ -95,8 +111,18 @@ public class HelloController {
                 e.printStackTrace();
             }
             System.out.println("The response is:");
-            System.out.println("PARSED:"+content);
-            sendFormBtnLabel.setText("PARSED:"+content);
+            System.out.println(content);
+
+
+            Gson gson = new GsonBuilder()
+                    .setPrettyPrinting()
+                    .create();
+
+            JsonMessage jsonMessage = gson.fromJson(content, JsonMessage.class);
+            System.out.println(jsonMessage);
+            sendFormBtnLabel.setText("PARSED:"+jsonMessage.getMbody());
+
+
             // do something with the JSON object
         }
 
