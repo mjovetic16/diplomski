@@ -7,13 +7,37 @@ Ulaz u parser je fajl koji sadrži jedan ili više MARC zapisa kreiranih prema n
 Alternativni ulaz u parser je jedna linija MARC teksta koja nakon parsiranja rezultira u json ispisu prepoznatog elementa MARC zapisa
 
 
-**Elementi zapisa**:
+### Elementi zapisa:
+
+**Tipovi polja**:
 - Leader
 - Kontrolno polje (ControlField)
 - Data polje (DataField)
 
+**Ceo MARC zapis**:
+- Leader ==(Opciono)==
+- Lista kontrolnih polja ==(Opciono)==
+- Lista data polja
 
-**Primer jedne linije MARC zapisa**:
+**Leader**:
+- field::String
+
+**ControlField**:
+- tag::String
+- field::String
+
+**DataField**:
+- tag::String
+- subfields::List<SubField>
+
+**SubField**:
+- tag::String
+- field::String
+- ind1::String
+- ind2::String
+
+
+**Primer jedne linije MARC zapisa za sva 3 tipa**:
 - **Leader**: LDR 01142cam22003014500
 - **ControlField**: 003 DLC
 - **DataField**: 020 ## $a0152038655 :$c$15.95
