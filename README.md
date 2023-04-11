@@ -89,7 +89,7 @@ unos salje u JSON formatu ka Haskell REST serveru (na portu 3000). Haskell serve
 **Izlaz**:  
 ```json
     {"name": "PARSED MARC"
-    "mbody": *JSON Marc*}
+    "mbody": JSON Marc}
 ```
 **JSON Marc**:
 ```json
