@@ -9,14 +9,14 @@ Alternativni ulaz u parser je jedna linija MARC teksta koja nakon parsiranja rez
 
 ### Elementi zapisa:
 
-**Tipovi polja**:
+#### Tipovi polja:
 - Leader
 - Kontrolno polje (ControlField)
 - Data polje (DataField)
 
-**Ceo MARC zapis**:
-- Leader ==(Opciono)==
-- Lista kontrolnih polja ==(Opciono)==
+### Ceo MARC zapis:
+- Leader (Opciono)
+- Lista kontrolnih polja (Opciono)
 - Lista data polja
 
 **Leader**:
