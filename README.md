@@ -6,29 +6,37 @@ Ulaz u parser je fajl koji sadrži jedan ili više MARC zapisa kreiranih prema n
 (Primeri podrzanih MARC formata se nalaze u folderu Files for parsing).
 Alternativni ulaz u parser je jedna linija MARC teksta koja nakon parsiranja rezultira u json ispisu prepoznatog elementa MARC zapisa
 
-Elementi zapisa su
+Elementi zapisa su:
 - Leader
 - Kontrolno polje (ControlField)
 - Data polje (DataField)
 
 Primer jedne linije MARC zapisa:
+
 **Leader**: LDR 01142cam22003014500
+
 **ControlField**: 003 DLC
+
 **DataField**: 020 ## $a0152038655 :$c$15.95
 
 JavaFX prozor omogucava unos tekstualnog fajla ili jedne linije MARC teksta, zatim
 unos salje u JSON formatu ka Haskell REST serveru (na portu 3000). Haskell server parsira unos, i vraca rezultat u istom tom json formatu, koji u telu poruke sadrzi parsiran JSON MARC fajl. Parsiran fajl se zatim prikazuje u JavaFX prozoru.
 
-Format JSON poruke koja sluzi za komunikaciju sa haskell serverom:
-JSON fajl (JSON Message) sa strukturom:
+**Format JSON poruke** koja sluzi za komunikaciju sa haskell serverom je JSON fajl (JSON Message) sa strukturom:
 - {name:String, mbody:String}
 
 ### REST putanje haskell servera:
+
 /parse/line : 
+
 * Prima JSON Message sa tekstom unosa jedne linije MARC zapisa u mbody polju
+
 * Vraca JSON Message sa parsiranom linijom ulaza u mbody polju
+
 /parse/file : 
+
 * Prima JSON Message sa tekstom celog MARC zapisa u mbody polju
+
 * Vraca JSON Message sa parsiranim JSON MARC zapisom u mbody polju
 
 
@@ -51,7 +59,7 @@ JSON fajl (JSON Message) sa strukturom:
 
 - **Izlaz**  {
     "name": "PARSED MARC"
-    "mbody": **JSON Marc**,
+    "mbody": **JSON Marc**
     }
 
 - **JSON Marc** {"leader": "01142cam22003014500",
