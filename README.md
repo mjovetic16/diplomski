@@ -13,13 +13,10 @@ Alternativni ulaz u parser je jedna linija MARC teksta koja nakon parsiranja rez
 - Data polje (DataField)
 
 
-Primer jedne linije MARC zapisa:
-
-**Leader**: LDR 01142cam22003014500
-
-**ControlField**: 003 DLC
-
-**DataField**: 020 ## $a0152038655 :$c$15.95
+**Primer jedne linije MARC zapisa**:
+- **Leader**: LDR 01142cam22003014500
+- **ControlField**: 003 DLC
+- **DataField**: 020 ## $a0152038655 :$c$15.95
 
 
 JavaFX prozor omogucava unos tekstualnog fajla ili jedne linije MARC teksta, zatim
@@ -27,21 +24,19 @@ unos salje u JSON formatu ka Haskell REST serveru (na portu 3000). Haskell serve
 
 
 **Format JSON poruke** koja sluzi za komunikaciju sa haskell serverom je JSON fajl (JSON Message) sa strukturom:
-- {name:String, mbody:String}
+- {**name**:String, **mbody**:String}
 
 ### REST putanje haskell servera:
 
-/parse/line : 
+**/parse/line** : 
 
-* Prima JSON Message sa tekstom unosa jedne linije MARC zapisa u mbody polju
+- Prima JSON Message sa tekstom unosa jedne linije MARC zapisa u mbody polju
+- Vraca JSON Message sa parsiranom linijom ulaza u mbody polju
 
-* Vraca JSON Message sa parsiranom linijom ulaza u mbody polju
+**/parse/file** : 
 
-/parse/file : 
-
-* Prima JSON Message sa tekstom celog MARC zapisa u mbody polju
-
-* Vraca JSON Message sa parsiranim JSON MARC zapisom u mbody polju
+- Prima JSON Message sa tekstom celog MARC zapisa u mbody polju
+- Vraca JSON Message sa parsiranim JSON MARC zapisom u mbody polju
 
 
 #### Primer /parse/line ulaza i izlaza:
