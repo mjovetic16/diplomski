@@ -49,8 +49,11 @@ unos salje u JSON formatu ka Haskell REST serveru (na portu 3000). Haskell serve
 
 
 **Format JSON poruke** koja sluzi za komunikaciju sa haskell serverom je JSON fajl (JSON Message) sa strukturom:
-**JSON Message:** 
+
+**JSON Message**:
+
     {**name**:String, **mbody**:String}
+
 
 ### REST putanje haskell servera:
 
