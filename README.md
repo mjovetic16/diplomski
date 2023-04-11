@@ -31,11 +31,11 @@ Alternativni ulaz u parser je jedna linija MARC teksta koja nakon parsiranja rez
 - tag::String
 - subfields::List<SubField>
 
-**SubField**:
-- tag::String
-- field::String
-- ind1::String
-- ind2::String
+    **SubField**:
+    - tag::String
+    - field::String
+    - ind1::String
+    - ind2::String
 
 
 **Primer jedne linije MARC zapisa za sva 3 tipa**:
@@ -98,7 +98,7 @@ unos salje u JSON formatu ka Haskell REST serveru (na portu 3000). Haskell serve
     "ind2":" "}}]}
 
 
-    #### Dodatni Komentari:
+#### Dodatni Komentari:
     - JavaFX deo projekta se naziva FXForm, koristi Maven build tool
     - Haskell deo projekta koristi cabal kao build tool, projekat se startuje komandom: cabal run
     - Haskell deo projekta sadrzi modul Parser koji vrsi sve funkcije parsiranja i modul Main koji se bavi funkcijama REST servera
