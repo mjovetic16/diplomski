@@ -51,8 +51,9 @@ unos salje u JSON formatu ka Haskell REST serveru (na portu 3000). Haskell serve
 **Format JSON poruke** koja sluzi za komunikaciju sa haskell serverom je JSON fajl (JSON Message) sa strukturom:
 
 **JSON Message**:
-
-    {**name**:String, **mbody**:String}
+```json
+{"name":"String", "mbody":"String"}
+```
 
 
 ### REST putanje haskell servera:
@@ -70,28 +71,28 @@ unos salje u JSON formatu ka Haskell REST serveru (na portu 3000). Haskell serve
 
 #### Primer /parse/line ulaza i izlaza:
 **Ulaz**: 
-
+```json
     {"name":"ParseLine",
     "mbody":"LDR 01142cam22003014500\n"}
-
+```
 **Izlaz**:  
-
+```json
     {"name": "PARSED MARCLine"
     "mbody": "Leader{"leader": "01142cam22003014500"}"}
-
+```
 #### Primer /parse/file ulaza i izlaza:
 **Ulaz**: 
-
+```json
     {"name":"ParseFile",
     "mbody":"LDR 01142cam22003014500\n003 DLC\n005 19930521155141.9\n008 920219s1993 caua j 000 0 eng 010 ## $a92005291\n020 ## $a0152038655 :$c$15.95\n"}
-
+```
 **Izlaz**:  
-
+```json
     {"name": "PARSED MARC"
     "mbody": *JSON Marc*}
-
+```
 **JSON Marc**:
-
+```json
     {"leader": "01142cam22003014500",
     "fields": [{"001":"92005291"},
     {"003":"DLC"},
@@ -102,7 +103,7 @@ unos salje u JSON formatu ka Haskell REST serveru (na portu 3000). Haskell serve
     {"1":"5.95"}],
     "ind1":" ",
     "ind2":" "}}]}
-
+```
 
 #### Dodatni Komentari:
 - JavaFX deo projekta se naziva FXForm, koristi Maven build tool
