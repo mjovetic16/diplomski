@@ -111,9 +111,15 @@ unos salje u JSON formatu ka Haskell REST serveru (na portu 3000). Haskell serve
 - Haskell deo projekta sadrzi modul Parser koji vrsi sve funkcije parsiranja i modul Main koji se bavi funkcijama REST servera
 
 #### Primer rada FXForm-a
-Prazan prozor
+
+#### Prazan prozor
+
 <img src="Resources/Empty Window.png" title="Empty Window">
-Parsiranje linije
+
+#### Parsiranje linije
+
 <img src="Resources/Line Parsing.png" title="Line Parsing">
-parsiranje fajla
+
+#### Parsiranje fajla
+
 <img src="Resources/File Parsing.png" title="File Parsing">
