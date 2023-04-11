@@ -24,16 +24,16 @@ unos salje u JSON formatu ka Haskell REST serveru (na portu 3000). Haskell serve
 
 
 **Format JSON poruke** koja sluzi za komunikaciju sa haskell serverom je JSON fajl (JSON Message) sa strukturom:
-- {**name**:String, **mbody**:String}
+- **JSON Message:** {**name**:String, **mbody**:String}
 
 ### REST putanje haskell servera:
 
-**POST :: /parse/line** : 
+**POST  ::  /parse/line** 
 
 - Prima JSON Message sa tekstom unosa jedne linije MARC zapisa u mbody polju
 - Vraca JSON Message sa parsiranom linijom ulaza u mbody polju
 
-**POST :: /parse/file** : 
+**POST  ::  /parse/file** 
 
 - Prima JSON Message sa tekstom celog MARC zapisa u mbody polju
 - Vraca JSON Message sa parsiranim JSON MARC zapisom u mbody polju
