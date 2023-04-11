@@ -28,12 +28,12 @@ unos salje u JSON formatu ka Haskell REST serveru (na portu 3000). Haskell serve
 
 ### REST putanje haskell servera:
 
-**/parse/line** : 
+**POST :: /parse/line** : 
 
 - Prima JSON Message sa tekstom unosa jedne linije MARC zapisa u mbody polju
 - Vraca JSON Message sa parsiranom linijom ulaza u mbody polju
 
-**/parse/file** : 
+**POST :: /parse/file** : 
 
 - Prima JSON Message sa tekstom celog MARC zapisa u mbody polju
 - Vraca JSON Message sa parsiranim JSON MARC zapisom u mbody polju
