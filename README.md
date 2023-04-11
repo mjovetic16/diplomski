@@ -96,3 +96,9 @@ unos salje u JSON formatu ka Haskell REST serveru (na portu 3000). Haskell serve
     {"1":"5.95"}],
     "ind1":" ",
     "ind2":" "}}]}
+
+
+    #### Dodatni Komentari:
+    - JavaFX deo projekta se naziva FXForm, koristi Maven build tool
+    - Haskell deo projekta koristi cabal kao build tool, projekat se startuje komandom: cabal run
+    - Haskell deo projekta sadrzi modul Parser koji vrsi sve funkcije parsiranja i modul Main koji se bavi funkcijama REST servera
