@@ -19,6 +19,7 @@ Alternativni ulaz u parser je jedna linija MARC teksta koja nakon parsiranja rez
 - Lista kontrolnih polja (Opciono)
 - Lista data polja
 
+### Struktura elemenata zapisa:
 **Leader**:
 - field::String
 
@@ -42,7 +43,7 @@ Alternativni ulaz u parser je jedna linija MARC teksta koja nakon parsiranja rez
 - **ControlField**: 003 DLC
 - **DataField**: 020 ## $a0152038655 :$c$15.95
 
-
+### Opis rada projekta
 JavaFX prozor omogucava unos tekstualnog fajla ili jedne linije MARC teksta, zatim
 unos salje u JSON formatu ka Haskell REST serveru (na portu 3000). Haskell server parsira unos, i vraca rezultat u istom tom json formatu, koji u telu poruke sadrzi parsiran JSON MARC fajl. Parsiran fajl se zatim prikazuje u JavaFX prozoru.
 
