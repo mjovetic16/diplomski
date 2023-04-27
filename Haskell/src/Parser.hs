@@ -21,7 +21,7 @@ instance Show CtrlField where
     show (CtrlField controlTag controlData) = "{"++show controlTag ++":"++show controlData++"}"
 
 instance Show DataField where
-    show (DataField tag ind subfields) = "{"++show tag++":{\"subfields\":["++ showArray (array subfields)++"],\n"++showInd ind++"}}"
+    show (DataField tag ind subfields) = "{"++show tag++":{\"subfields\":["++ showArray (array subfields)++"]},\n"++showInd ind++"}"
         where showArray [] =  ""
               showArray (x:[]) = x
               showArray (x:xs) = x ++",\n"++ showArray xs
@@ -70,9 +70,9 @@ instance Show MARC where
 
 instance Show MARCLine where
     show (MARCLine Nothing Nothing Nothing) = "Empty MARC"
-    show (MARCLine (Just l) Nothing Nothing) = "Leader{"++show l++"}"
-    show (MARCLine Nothing (Just c) Nothing) = "Control{"++show c++"}"
-    show (MARCLine Nothing Nothing (Just d)) = "Data{"++show d++"}"
+    show (MARCLine (Just l) Nothing Nothing) = "{\"type\":\"LEADER\",\"data\":{"++show l++"}}"
+    show (MARCLine Nothing (Just c) Nothing) = "{\"type\":\"CONTROL_FIELD\",\"data\":"++show c++"}"
+    show (MARCLine Nothing Nothing (Just d)) = "{\"type\":\"DATA_FIELD\",\"data\":"++show d++"}"
         
 
 

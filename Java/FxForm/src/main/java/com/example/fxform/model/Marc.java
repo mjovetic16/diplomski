@@ -5,19 +5,18 @@ import java.util.List;
 
 public class Marc {
 
-    String leader;
+    Leader leader;
 
     List<ControlField> controlFieldList;
 
     List<DataField> dataFieldList;
 
 
-
-    public String getLeader() {
+    public Leader getLeader() {
         return leader;
     }
 
-    public void setLeader(String leader) {
+    public void setLeader(Leader leader) {
         this.leader = leader;
     }
 
@@ -35,5 +34,15 @@ public class Marc {
 
     public void setDataFieldList(List<DataField> dataFieldList) {
         this.dataFieldList = dataFieldList;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Marc{" +
+                "leader='" + leader + '\'' +
+                ", controlFieldList=" + controlFieldList +
+                ", dataFieldList=" + dataFieldList +
+                '}';
     }
 }

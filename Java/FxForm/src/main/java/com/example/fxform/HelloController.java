@@ -1,6 +1,6 @@
 package com.example.fxform;
 
-import com.example.fxform.model.JsonMessage;
+import com.example.fxform.model.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -26,10 +26,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 import com.example.fxform.model.JsonMessage;
-
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class HelloController {
@@ -69,8 +72,22 @@ public class HelloController {
             System.out.println(jsonMessage);
 
 
+
+
             sendFormBtnLabel.setText("PARSED:"+jsonMessage.getMbody());
-            // do something with the JSON object
+
+
+            try {
+                MarcLine newMarcLine = parseJsonLine(jsonMessage.getMbody());
+                System.out.println("Parsed into marcline object");
+                System.out.println(newMarcLine);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
+
+
+
         }
 
 
@@ -125,6 +142,15 @@ public class HelloController {
 
 
 
+
+            try {
+               Marc newMarc = parseJson(jsonMessage.getMbody());
+               System.out.println("Parsed into marc object");
+               System.out.println(newMarc);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
             // do something with the JSON object
         }
 
@@ -159,5 +185,199 @@ public class HelloController {
         }
 
         return response;
+    }
+
+
+    public Marc parseJson(String jsonString) throws JSONException {
+        JSONObject json = new JSONObject(jsonString);
+        Iterator<?> keys = json.keys();
+
+        Marc marcObj = new Marc();
+
+        while(keys.hasNext())
+        {
+            String key = (String)keys.next();
+
+            switch(key) {
+                case "leader":
+                    Leader leader = new Leader();
+                    leader.setData(json.getString("leader"));
+                    marcObj.setLeader(leader);
+                    break;
+                case "fields":
+                    JSONArray fieldArrays = json.getJSONArray("fields");
+                    ArrayList<DataField> dataFields = new ArrayList<>();
+                    ArrayList<ControlField> controlFields = new ArrayList<>();
+
+
+                    // iterate across the array of fields and parse control and data fields
+                    for (int i=0; i < fieldArrays.length(); i++) {
+                        JSONObject arrayElement = fieldArrays.getJSONObject(i);
+
+                        Iterator<?> elementKeys = arrayElement.keys();
+
+
+
+                        boolean isDataField = false;
+
+                        if(arrayElement.has("ind1")) {
+                            isDataField = true;
+                            System.out.println("found the datafield");
+                        }
+
+
+                        if(isDataField){
+                            DataField dataField = new DataField();
+                            ArrayList<SubField> subFieldArrayList = new ArrayList<>();
+
+
+
+
+                            dataField.setIndex1(arrayElement.getString("ind1"));
+                            dataField.setIndex2(arrayElement.getString("ind2"));
+
+                            //Iterate across the dataField fields (by key), and parse the elements
+                            while(elementKeys.hasNext()){
+                                String elementKey = (String)elementKeys.next();
+
+                                if(elementKey.equals("ind1")||elementKey.equals("ind2"))
+                                    continue;
+
+                                dataField.setTag(elementKey);
+                                JSONObject jsonDataFieldBody = arrayElement.getJSONObject(elementKey);
+
+
+                                JSONArray jsonSubsArray = jsonDataFieldBody.getJSONArray("subfields");
+
+
+                                //Iterate across the subfields and parse them
+                                for (int j=0; j < jsonSubsArray.length(); j++) {
+
+                                    JSONObject jsonSubElement = jsonSubsArray.getJSONObject(j);
+                                    SubField subField = new SubField();
+
+                                    Iterator<?> subElementKeys = jsonSubElement.keys();
+                                    String subElementKey = (String)subElementKeys.next();
+                                    subField.setTag(subElementKey);
+                                    subField.setData(jsonSubElement.getString(subElementKey));
+
+                                    subFieldArrayList.add(subField);
+
+                                }
+
+
+
+                            }
+
+                            dataField.setSubFieldList(subFieldArrayList);
+                            dataFields.add(dataField);
+
+                        }else{
+                            ControlField controlField = new ControlField();
+                            String elementKey = (String)elementKeys.next();
+                            controlField.setTag(elementKey);
+                            controlField.setData(arrayElement.getString(elementKey));
+
+                            controlFields.add(controlField);
+                        }
+
+                    }
+
+                    marcObj.setControlFieldList(controlFields);
+                    marcObj.setDataFieldList(dataFields);
+
+
+                    break;
+                default:
+            }
+        }
+
+        return marcObj;
+    }
+
+
+    public MarcLine parseJsonLine(String jsonString) throws JSONException {
+
+        JSONObject json = new JSONObject(jsonString);
+        Iterator<?> keys = json.keys();
+
+        MarcLine marcLine = null;
+
+        switch (json.getString("type")){
+
+            case "LEADER":
+                Leader leader = new Leader();
+                JSONObject jsonObject = json.getJSONObject("data");
+                leader.setData(jsonObject.getString("leader"));
+                marcLine = leader;
+                break;
+
+            case "DATA_FIELD":
+                DataField dataField = new DataField();
+                JSONObject jsonObjectData = json.getJSONObject("data");
+
+                ArrayList<SubField> subFieldArrayList = new ArrayList<>();
+
+
+
+
+                dataField.setIndex1(jsonObjectData.getString("ind1"));
+                dataField.setIndex2(jsonObjectData.getString("ind2"));
+
+                //Iterate across the dataField fields (by key), and parse the elements
+                Iterator<?> elementKeys = jsonObjectData.keys();
+                while(elementKeys.hasNext()){
+                    String elementKey = (String)elementKeys.next();
+
+                    if(elementKey.equals("ind1")||elementKey.equals("ind2"))
+                        continue;
+
+                    dataField.setTag(elementKey);
+                    JSONObject jsonDataFieldBody = jsonObjectData.getJSONObject(elementKey);
+
+
+                    JSONArray jsonSubsArray = jsonDataFieldBody.getJSONArray("subfields");
+
+
+                    //Iterate across the subfields and parse them
+                    for (int j=0; j < jsonSubsArray.length(); j++) {
+
+                        JSONObject jsonSubElement = jsonSubsArray.getJSONObject(j);
+                        SubField subField = new SubField();
+
+                        Iterator<?> subElementKeys = jsonSubElement.keys();
+                        String subElementKey = (String)subElementKeys.next();
+                        subField.setTag(subElementKey);
+                        subField.setData(jsonSubElement.getString(subElementKey));
+
+                        subFieldArrayList.add(subField);
+
+                    }
+
+
+
+                }
+
+                dataField.setSubFieldList(subFieldArrayList);
+
+                marcLine = dataField;
+                break;
+
+            case "CONTROL_FIELD":
+                ControlField controlField = new ControlField();
+                JSONObject jsonObjectControl = json.getJSONObject("data");
+
+                Iterator<?> elementKeysControl = jsonObjectControl.keys();
+                String elementKey = (String)elementKeysControl.next();
+                controlField.setTag(elementKey);
+                controlField.setData(jsonObjectControl.getString(elementKey));
+
+                marcLine =  controlField;
+                break;
+
+        }
+
+
+        return marcLine;
     }
 }
