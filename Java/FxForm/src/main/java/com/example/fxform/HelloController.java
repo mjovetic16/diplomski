@@ -95,13 +95,15 @@ public class HelloController {
 
 
 
-            sendFormBtnLabel.setText("PARSED:"+jsonMessage.getMbody());
+            sendFormBtnLabel.setText("PARSED");
 
 
             try {
                 MarcLine newMarcLine = parseJsonLine(jsonMessage.getMbody());
                 System.out.println("Parsed into marcline object");
                 System.out.println(newMarcLine);
+
+                loadMarcLineTree(newMarcLine);
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
@@ -478,6 +480,79 @@ public class HelloController {
 
 
         modelTreeView.setRoot(root);
+
+    }
+
+
+    public void loadMarcLineTree(MarcLine marcLine){
+
+        switch (marcLine.getType().toString()) {
+
+            case "LEADER" :
+                TreeItem<String> leader = new TreeItem<>("Leader");
+                leader.getChildren().add(new TreeItem<>(((Leader)marcLine).getData()));
+
+                modelTreeView.setRoot(leader);
+
+                break;
+
+            case "DATA_FIELD":
+
+                TreeItem<String> dataRoot = new TreeItem<>("Data Field");
+
+                DataField dataField = (DataField)marcLine;
+                TreeItem<String> dataItem = new TreeItem<>(dataField.getTag());
+                TreeItem<String> dataItemIndex1 = new TreeItem<>("IND1: "+dataField.getIndex1());
+                TreeItem<String> dataItemIndex2 = new TreeItem<>("IND2: "+dataField.getIndex2());
+
+                TreeItem<String> dataItemSubRoot = new TreeItem<>("Subfields");
+
+                for(SubField subField:dataField.getSubFieldList()){
+
+                    TreeItem<String> dataItemSubField = new TreeItem<>(subField.getTag());
+                    TreeItem<String> dataItemSubFieldData = new TreeItem<>(subField.getData());
+
+                    dataItemSubRoot.getChildren().add(dataItemSubField);
+                    dataItemSubField.getChildren().add(dataItemSubFieldData);
+
+                }
+
+
+                dataItem.getChildren().add(dataItemIndex1);
+                dataItem.getChildren().add(dataItemIndex2);
+                dataItem.getChildren().add(dataItemSubRoot);
+
+                dataRoot.getChildren().add(dataItem);
+
+                modelTreeView.setRoot(dataRoot);
+
+                break;
+
+            case "CONTROL_FIELD":
+
+                TreeItem<String> controlRoot = new TreeItem<>("Control Field");
+
+                ControlField controlField = (ControlField)marcLine;
+
+                TreeItem<String> controlItem = new TreeItem<>();
+                TreeItem<String> controlItemData = new TreeItem<>();
+
+
+                controlItem.setValue(controlField.getTag());
+
+                controlItemData.setValue(controlField.getData());
+
+
+                controlItem.getChildren().add(controlItemData);
+                controlRoot.getChildren().add(controlItem);
+
+                modelTreeView.setRoot(controlRoot);
+
+
+
+                break;
+
+        }
 
     }
 
