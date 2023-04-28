@@ -6,6 +6,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeView?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.fxform.HelloController">
     <padding>
@@ -21,5 +22,7 @@
     <Label fx:id="sendFileFormBtnLabel" text="Parse file:"/> <Button text="Choose file..." onAction="#onChooseButtonClick"/>
 
     <Label fx:id="sendFormBtnLabel"/>
+
+    <TreeView fx:id="modelTreeView" layoutX="0" layoutY="0" />
 
 </VBox>
