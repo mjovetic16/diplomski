@@ -78,7 +78,7 @@ unos salje u JSON formatu ka Haskell REST serveru (na portu 3000). Haskell serve
 **Izlaz**:  
 ```json
     {"name": "PARSED MARCLine"
-    "mbody": "Leader{'leader': '01142cam22003014500'}"}
+    "mbody": "{'type':'LEADER', 'data':{'leader': '01142cam22003014500'}"}
 ```
 #### Primer /parse/file ulaza i izlaza:
 **Ulaz**: 
