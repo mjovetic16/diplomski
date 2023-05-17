@@ -84,14 +84,17 @@ unos salje u JSON formatu ka Haskell REST serveru (na portu 3000). Haskell serve
 **Ulaz**: 
 ```json
     {"name":"ParseFile",
-    "mbody":"LDR 01142cam22003014500\n003 DLC\n005 19930521155141.9\n008 920219s1993 caua j 000 0 eng 010 ## $a92005291\n020 ## $a0152038655 :$c$15.95\n"}
+    "mbody":"LDR 01142cam22003014500\n
+    003 DLC\n005 19930521155141.9\n
+    008 920219s1993 caua j 000 0 eng 010 ## $a92005291\n
+    020 ## $a0152038655 :$c$15.95\n"}
 ```
 **Izlaz**:  
 ```json
     {"name": "PARSED MARC"
-    "mbody": JSON Marc}
+    "mbody": MARC JSON}
 ```
-**JSON Marc**:
+**MARC JSON**:
 ```json
     {"leader": "01142cam22003014500",
     "fields": [{"001":"92005291"},
